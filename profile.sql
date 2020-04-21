@@ -8,7 +8,7 @@
 
 
 \pset tuples_only
-\o | vsql -AtX
+\o | vsql -AtqX
 WITH 
 -- suffix for re-casting view ...
 suff(vwsuff,tbsuff) AS (SELECT '_pv','_new')
@@ -40,7 +40,7 @@ collist AS (
 SELECT
    CASE
    WHEN isfirst
-     THEN '\o | vsql -AtX'||CHR(10)||'SELECT'||CHR(10)||'  MAX(''DROP VIEW IF EXISTS '')||'''||schema_dot_table||vwsuff||';''||CHR(10)'
+     THEN '\o | vsql -AtqX'||CHR(10)||'SELECT'||CHR(10)||'  MAX(''DROP VIEW IF EXISTS '')||'''||schema_dot_table||vwsuff||';''||CHR(10)'
      ||'||''CREATE VIEW '||schema_dot_table||'_pv AS SELECT''||CHR(10)||''  '
    ELSE   '||CHR(10)||'', '
    END
