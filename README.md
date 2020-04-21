@@ -1,6 +1,6 @@
 # sqlprofile
-Profile one or more Vertica tables for optimal data types, using SQL generating SQL
-Profile Vertica tables using SQL generating SQL
+Profile one or more Vertica tables for optimal data types, using SQL generating SQL.
+
 Contact: marco.gessner@microfocus.com
 
 The package consists of three scripts: 
