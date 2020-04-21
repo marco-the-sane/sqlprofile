@@ -13,7 +13,12 @@ WHERE table_schema='public'
 -- control query
 \pset footer
 \qecho '----------------------------------------------'
-\qecho these tables will be profiled:
+\qecho ' --  | these tables will be profiled:'
 \qecho '----------------------------------------------'
-SELECT * FROM tbid
+SELECT
+  '-- ' AS "-- "
+, table_schema
+, table_name
+, NULL AS reduction_filter 
+FROM tbid
 ;
