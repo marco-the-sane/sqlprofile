@@ -1,7 +1,7 @@
 # sqlprofile
 Profile one or more Vertica tables for optimal data types, using SQL generating SQL.
 
-Contact: marco.gessner@microfocus.com
+Contact: marco.gessner@vertica.com
 
 The package consists of three scripts: 
 * profile.sql: a script of SQL generating profiling SQL, and 

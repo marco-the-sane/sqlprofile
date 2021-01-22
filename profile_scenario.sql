@@ -14,7 +14,7 @@ CREATE TABLE public.foo (
 ) UNSEGMENTED ALL NODES
 ;
 
-INSERT /*+ DIRECT */ INTO foo(id,first_name,last_name,hire_dt)
+INSERT /*+ DIRECT */ INTO public.foo(id,first_name,last_name,hire_dt)
           SELECT 2,'Ford','Prefect',DATE '2017-02-05'
 UNION ALL SELECT 10,'Svlad','Cjelli',DATE '2017-02-05'
 UNION ALL SELECT 11,'Cynthia','Fitzmelton',DATE '2017-02-05'
