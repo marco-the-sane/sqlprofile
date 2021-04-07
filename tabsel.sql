@@ -4,7 +4,7 @@ CREATE TABLE tbid(table_schema,table_name,reduction_filter) AS
 SELECT 
   table_schema
 , table_name
-, NULL AS reduction_filter 
+, NULL AS reduction_filter
 FROM tables 
 -- select the tables you want to profile here ...
 WHERE table_schema='public' 
@@ -19,6 +19,6 @@ SELECT
   '-- ' AS "-- "
 , table_schema
 , table_name
-, NULL AS reduction_filter 
+, reduction_filter 
 FROM tbid
 ;
