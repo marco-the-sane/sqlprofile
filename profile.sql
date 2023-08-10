@@ -96,6 +96,7 @@ ORDER BY schema_dot_table,ordinal_position
 
 
 \o | vsql -AtqX
+
 WITH
 -- suffix for re-casting view, which is actually profiled here ...
 suff(vwsuff,tbsuff) AS (SELECT '_pv','_new')
@@ -160,7 +161,11 @@ collist AS (
     ) AS islast
   , UPPER(oc.data_type) AS orig_data_type
   FROM collist0 c
-  JOIN columns oc USING(table_schema,column_name)
+  JOIN (
+    SELECT table_schema,table_name,column_name,data_type,ordinal_position FROM columns 
+    UNION ALL
+    SELECT table_schema,table_name,column_name,data_type,ordinal_position FROM view_columns 
+  ) oc USING(table_schema,column_name)
   WHERE REPLACE(c.table_name,vwsuff,'')=oc.table_name
 )
 -- need to buffer code in a common table expression to add sorting 
