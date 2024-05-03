@@ -66,7 +66,7 @@ SELECT
  ||'        )'||CHR(10)
  ||'      THEN ''2-::TIMESTAMP'''||CHR(10)
  ||'      WHEN REGEXP_LIKE(TRIM('||column_name||'),''^[-+]?(\d+(\.\d*)?|\.\d+)$'',''ib'')'||CHR(10)
- ||'      THEN ''1-::NUMERIC'''||CHR(10)
+ ||'      THEN ''1-::NUMERIC(50,50)'''||CHR(10)
  ||'      WHEN REGEXP_LIKE(TRIM('||column_name||'),''^[a-f0-9]{8}-?[a-f0-9]{4}-?[a-f0-9]{4}-?[a-f0-9]{4}-?[a-f0-9]{12}$'',''ib'')'||CHR(10)
  ||'      THEN ''4-::UUID'''||CHR(10)
  ||'      WHEN OCTET_LENGTH(TRIM('||column_name||')) <> CHAR_LENGTH(TRIM('||column_name||'))'||CHR(10)
@@ -188,33 +188,33 @@ code(schema_dot_table,phase,ordinal_position,code) AS (
          'CASE '||CHR(10)
        ||'   WHEN INSTR('||column_name||'::VARCHAR(32), ''.'') = 0'||CHR(10)
        ||'     THEN OCTET_LENGTH('||column_name||'::VARCHAR(32))'||CHR(10)
-       ||'   ELSE OCTET_LENGTH(SPLIT_PART('||column_name||'::VARCHAR(32), ''.'', 1))'||CHR(10)
+       ||'   ELSE OCTET_LENGTH(SPLIT_PART('||column_name||'::VARCHAR(128), ''.'', 1))'||CHR(10)
        ||'  END AS '||column_name||'_prec'||CHR(10)
        ||', CASE '||CHR(10)
-       ||'   WHEN INSTR('||column_name||'::VARCHAR(32), ''.'') = 0'||CHR(10)
+       ||'   WHEN INSTR('||column_name||'::VARCHAR(128), ''.'') = 0'||CHR(10)
        ||'     THEN 0'||CHR(10)
-       ||'   ELSE OCTET_LENGTH(RTRIM(SPLIT_PART('||column_name||'::VARCHAR(32), ''.'',2), ''0''))'||CHR(10)
+       ||'   ELSE OCTET_LENGTH(RTRIM(SPLIT_PART('||column_name||'::VARCHAR(128), ''.'',2), ''0''))'||CHR(10)
        ||'  END AS '||column_name||'_scale'
      WHEN istime
        THEN
-         'OCTET_LENGTH(RTRIM('||column_name||'::VARCHAR(32))) AS '||column_name||'_prec'||CHR(10)
+         'OCTET_LENGTH(RTRIM('||column_name||'::VARCHAR(128))) AS '||column_name||'_prec'||CHR(10)
        ||', CASE '||CHR(10)
-       ||'   WHEN INSTR('||column_name||'::VARCHAR(32), ''.'') = 0'||CHR(10)
+       ||'   WHEN INSTR('||column_name||'::VARCHAR(128), ''.'') = 0'||CHR(10)
        ||'     THEN 0'||CHR(10)
-       ||'   ELSE OCTET_LENGTH(RTRIM(SPLIT_PART('||column_name||'::VARCHAR(32),''.'',2)))'||CHR(10)
+       ||'   ELSE OCTET_LENGTH(RTRIM(SPLIT_PART('||column_name||'::VARCHAR(128),''.'',2)))'||CHR(10)
        ||'  END AS '||column_name||'_scale'
      WHEN istimestamp
        THEN
          'CASE '||CHR(10)
-       ||'   WHEN OCTET_LENGTH(RTRIM('||column_name||'::VARCHAR(32))) > 10'||CHR(10)
-       ||'    AND INSTR('||column_name||'::VARCHAR(32), ''00:00:00'') = 0'||CHR(10)
+       ||'   WHEN OCTET_LENGTH(RTRIM('||column_name||'::VARCHAR(128))) > 10'||CHR(10)
+       ||'    AND INSTR('||column_name||'::VARCHAR(128), ''00:00:00'') = 0'||CHR(10)
        ||'     THEN 19'||CHR(10)
        ||'   ELSE 10'||CHR(10)
        ||'  END AS '||column_name||'_prec'||CHR(10)
        ||', CASE '||CHR(10)
-       ||'   WHEN INSTR('||column_name||'::VARCHAR(32), ''.'') = 0'||CHR(10)
+       ||'   WHEN INSTR('||column_name||'::VARCHAR(128), ''.'') = 0'||CHR(10)
        ||'     THEN 0'||CHR(10)
-       ||'   ELSE OCTET_LENGTH(RTRIM(SPLIT_PART('||column_name||'::VARCHAR(32),''.'',2)))'||CHR(10)
+       ||'   ELSE OCTET_LENGTH(RTRIM(SPLIT_PART('||column_name||'::VARCHAR(128),''.'',2)))'||CHR(10)
        ||'  END AS '||column_name||'_scale'
      WHEN isstring
        THEN
